@@ -26,8 +26,8 @@ module grid_m
   private
   public :: GRID__NX, GRID__NY
 
-  integer <const> :: GRID__NX = 1000
-  integer <const> :: GRID__NY = 1000
+  integer <const> :: GRID__NX = 500
+  integer <const> :: GRID__NY = 500
 
   type, public :: grid_t
     real(DR), dimension(GRID__NX) :: pos_x
@@ -103,27 +103,27 @@ end module grid_m
 program main
   use constants_m
   use grid_m
-  use vv_m
-  use vv_color_m
-  use vv_sketch_m
-  use vv_slice_scalar_m
+  use slisvg_m
+  use slisvg_color_m
+  use slisvg_sketch_m
+  use slisvg_slice_scalar_m
   implicit none
 
   real :: level ! contour level
   real :: range, dlevel
 
-  type(vv_sketch_t) :: vv_sketch
-  type(vv_slice_scalar_t) :: vv_scalar
-  type(vv_color_t) :: color
+  type(slisvg_sketch_t) :: slisvg_sketch
+  type(slisvg_slice_scalar_t) :: slisvg_scalar
+  type(slisvg_color_t) :: color
   integer :: l ! level
 
   call Grid.initialize
-  call vv_scalar.initialize( 'Mandelbrot',  &
-                             GRID__NX,       &
-                             GRID__NY,       &
-                             real(Grid.pos_x),     &
-                             real(Grid.pos_y),     &
-                             real(Grid.val) )
+  call slisvg_scalar.initialize( 'Mandelbrot',          &
+                                  GRID__NX,             &
+                                  GRID__NY,             &
+                                  real(Grid.pos_x),     &
+                                  real(Grid.pos_y),     &
+                                  real(Grid.val) )
   call iSketch_initialize
   call iSketch_message_header( 'Mandelbrot' )
   call iSketch_boundary
@@ -131,46 +131,46 @@ program main
   range = maxval(Grid.val(:,:))
 
   dlevel = range / 8
-  call vv_sketch.group_push( line_color=VV_COLOR__CONST.black )
+  call slisvg_sketch.group_push( line_color=SLISVG_COLOR__CONST.black )
 
     do l = 1, 8
       level = dlevel*real(l)
-      color = vv_color__real_to_color( vmin=0.0,               &
-                                       vmax=range,  &
-                                       val=level )
-      call vv_scalar.vis_contour( vv_sketch,  &
-                                  level,  &
-                                  width_in_pixels=0.1, &
-                                  fill_color=color )
+      color = slisvg_color__real_to_color( vmin=0.0,    &
+                                           vmax=range,  &
+                                           val=level )
+      call slisvg_scalar.vis_contour( slisvg_sketch,            &
+                                      level,                    &
+                                      width_in_pixels=0.1,      &
+                                      fill_color=color )
     end do
 
-  call vv_sketch.group_pop
+  call slisvg_sketch.group_pop
   call iSketch_message_footer
-  call vv_scalar.finalize
+  call slisvg_scalar.finalize
   call iSketch_finalize
 
 contains
 
   subroutine iSketch_initialize
-    call vv_sketch.initialize( real(XMIN),  &
-                               real(YMIN),  &
-                               real(XMAX),  &
-                               real(YMAX),  &
-                               screen_width_in_pixel=1000.0,  &
-                               title='Fractal',  &
-                               filename='example07_mandelbrot.svg' )
+    call slisvg_sketch.initialize( real(XMIN),  &
+                                   real(YMIN),  &
+                                   real(XMAX),  &
+                                   real(YMAX),  &
+                                   screen_width_in_pixel=1000.0,  &
+                                   title='Fractal',  &
+                                   filename='example07_mandelbrot.svg' )
   end subroutine iSketch_initialize
 
   subroutine iSketch_message_header( string )
     char(len=*) <in> :: string
-    call vv_sketch.text( ( real(XMIN)         &
-                         + real(XMAX) ) / 2,  &
-                         real(YMAX)     &
-                         + 0.05*real(YMAX-YMIN),   &
-                         string,  &
-                         font_size_in_pixel=30.0,  &
-                         text_anchor='middle', &
-                         color=VV_COLOR__CONST.black )
+    call slisvg_sketch.text( ( real(XMIN)               &
+                             + real(XMAX) ) / 2,        &
+                             real(YMAX)                 &
+                             + 0.05*real(YMAX-YMIN),    &
+                             string,                    &
+                             font_size_in_pixel=30.0,   &
+                             text_anchor='middle',      &
+                             color=SLISVG_COLOR__CONST.black )
   end subroutine iSketch_message_header
 
   subroutine iSketch_message_footer
@@ -186,34 +186,34 @@ contains
                                 - tsep
     vmin = 0.0
     vmax = range
-    string = ' vmin = ' // vv__real_to_str13(vmin) //  &
-             ' vmax = ' // vv__real_to_str13(vmax)
-    call vv_sketch.text( ( real(XMIN)         &
-                         + real(XMAX) ) / 2,  &
-                         text_v_pos_in_physical_unit,  &
-                         string,  &
-                         font_size_in_pixel=20.0,  &
-                         text_anchor='middle', &
-                         color=VV_COLOR__CONST.black )
+    string = ' vmin = ' // slisvg__real_to_str13(vmin) //  &
+             ' vmax = ' // slisvg__real_to_str13(vmax)
+    call slisvg_sketch.text( ( real(XMIN)         &
+                             + real(XMAX) ) / 2,  &
+                             text_v_pos_in_physical_unit,  &
+                             string,  &
+                             font_size_in_pixel=20.0,  &
+                             text_anchor='middle', &
+                             color=SLISVG_COLOR__CONST.black )
     text_v_pos_in_physical_unit -= tsep
-    string = trim(vv_sketch.filename)
-    call vv_sketch.text( ( real(XMIN)         &
-                         + real(XMAX) ) / 2,  &
-                         text_v_pos_in_physical_unit,  &
-                         string,  &
-                         font_size_in_pixel=20.0,  &
-                         text_anchor='middle', &
-                         color=VV_COLOR__CONST.black )
+    string = trim(slisvg_sketch.filename)
+    call slisvg_sketch.text( ( real(XMIN)         &
+                             + real(XMAX) ) / 2,  &
+                             text_v_pos_in_physical_unit,  &
+                             string,  &
+                             font_size_in_pixel=20.0,  &
+                             text_anchor='middle', &
+                             color=SLISVG_COLOR__CONST.black )
   end subroutine iSketch_message_footer
 
   subroutine iSketch_finalize
-    call vv_sketch.finalize                 
+    call slisvg_sketch.finalize                 
   end subroutine iSketch_finalize
 
   subroutine iSketch_boundary
-    call vv_scalar.mesh.draw( vv_sketch, &
-                              line_color=VV_COLOR__CONST.black, &
-                              width_in_pixels=2.0 )
+    call slisvg_scalar.mesh.draw( slisvg_sketch, &
+                                  line_color=SLISVG_COLOR__CONST.black, &
+                                  width_in_pixels=2.0 )
   end subroutine iSketch_boundary
 
 end program main
