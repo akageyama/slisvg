@@ -41,5 +41,10 @@ make
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
-## Sample image
-![sample](https://github.com/akageyama/slice-svg/assets/17426293/0c694a11-3d12-4e25-b534-34c45310288e)
+## Sample image (example05)
+<!--
+    [![Example 3](docs/images/example03_contour_diagonal_border.svg)](docs/images/example03_contour_diagonal_border.svg)
+    [![Example 7](docs/images/example07_mandelbrot.svg)](docs/images/example07_mandelbrot.svg)
+    [![Example 4](docs/images/example04_vector_arrows.svg)](docs/images/example04_vector_arrows.svg)
+-->
+[![Example 5](docs/images/example05_vector_arrows_animation.svg)](docs/images/example05_vector_arrows_animation.svg)
