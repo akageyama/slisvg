@@ -6,7 +6,7 @@ The generated SVG files can be viewed in standard web browsers without additiona
 
 ## Requirements
 
-- gfortran
+- Fortran
 - GNU make
 - Python 3
 
