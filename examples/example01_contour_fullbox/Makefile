@@ -1,7 +1,7 @@
 .PHONY: clean 
 .SUFFIXES:
 
-VIS2DLIB_NAME = vv  # <= libvv.a 
+VIS2DLIB_NAME = slisvg  # <= slisvg.a 
 VIS2DLIB_DIR  = ../../lib
 EFPP = ../../bin/efpp.py
 FC = gfortran
@@ -24,3 +24,4 @@ clean:
 	rm -f *.F90
 	rm -f *.svg
 	rm -f $(sample)
+	rm -f _used_colorbar_bam.ppm

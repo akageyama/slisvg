@@ -173,10 +173,12 @@ contains
             col.b = (1-x/0.2)*1.00 + (x/0.2)*col.b
           end if
         case ("bam")
-          ==<just_once>==
-            call slisvg_color_map_bam__print_colorbar( "_used_colorbar_bam.ppm", 512, 32 )
-            call slisvg_color__const__test_print
-          ==</just_once>==
+          !!>
+            ==<just_once>==
+              call slisvg_color_map_bam__print_colorbar( "_used_colorbar_bam.ppm", 512, 32 )
+              call slisvg_color__const__test_print
+            ==</just_once>==
+          !!< 
           call slisvg_color_map_bam__0green_to_1red( x, col.r, col.g, col.b )
         case default
           hsv.hue = 0.3 + 0.5 * val_norm

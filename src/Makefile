@@ -1,5 +1,5 @@
 #
-# Makefile for turtle-svg
+# Makefile for slisvg
 #
 #     2018.05.30: Start coding.
 #

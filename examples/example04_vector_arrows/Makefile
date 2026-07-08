@@ -1,7 +1,7 @@
 .PHONY: clean 
 .SUFFIXES:
 
-VIS2DLIB_NAME = vv  # <= libvv.a 
+VIS2DLIB_NAME = slisvg  # <= libslisvg.a 
 VIS2DLIB_DIR  = ../../lib
 EFPP = ../../bin/efpp.py
 FC = gfortran

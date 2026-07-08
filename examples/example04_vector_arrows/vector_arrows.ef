@@ -185,64 +185,64 @@ program example04_vector_arrows
   use grid_m
   use pressurechange_m
   use gradvector_m
-  use vv_m
-  use vv_color_m
-  use vv_sketch_m
-  use vv_slice_vector_m
+  use slisvg_m
+  use slisvg_color_m
+  use slisvg_sketch_m
+  use slisvg_slice_vector_m
   implicit none
 
   type(pressurechange_t) :: pressurechange
   type(gradvector_t) :: gradvector
 
-  type(vv_sketch_t) :: vv_sketch
-  type(vv_slice_vector_t) :: vv_vector
+  type(slisvg_sketch_t) :: slisvg_sketch
+  type(slisvg_slice_vector_t) :: slisvg_vector
 
   call Grid.initialize
   call pressurechange.set
   call gradvector.set( pressurechange.field2d )
-  call vv_vector.initialize( 'grad pressure',    &
-                             GRID__NX,           &
-                             GRID__NY,           &
-                             Grid.pos_x,         &
-                             Grid.pos_y,         &
-                             gradvector.comp_x,  &
-                             gradvector.comp_y )
+  call slisvg_vector.initialize( 'grad pressure',    &
+                                 GRID__NX,           &
+                                 GRID__NY,           &
+                                 Grid.pos_x,         &
+                                 Grid.pos_y,         &
+                                 gradvector.comp_x,  &
+                                 gradvector.comp_y )
   call iSketch_initialize
   call iSketch_message_header( 'Contouring with color and dash' )
   call iSketch_boundary
 
-  call vv_sketch.group_push( line_color=VV_COLOR__CONST.black,  &
-                             fill_color=VV_COLOR__CONST.blue )
-    call vv_vector.vis_arrows( vv_sketch )
-  call vv_sketch.group_pop
+  call slisvg_sketch.group_push( line_color=SLISVG_COLOR__CONST.black,  &
+                                 fill_color=SLISVG_COLOR__CONST.blue )
+    call slisvg_vector.vis_arrows( slisvg_sketch )
+  call slisvg_sketch.group_pop
 
   call iSketch_message_footer
-  call vv_vector.finalize
+  call slisvg_vector.finalize
   call iSketch_finalize
 
 contains
 
   subroutine iSketch_initialize
-    call vv_sketch.initialize( SIMULATION_REGION.xmin,  &
-                               SIMULATION_REGION.ymin,  &
-                               SIMULATION_REGION.xmax,  &
-                               SIMULATION_REGION.ymax,  &
-                               screen_width_in_pixel=800.0,            &
-                               title='Arrow glyphs of fector field',   &
-                               filename='example04_vector_arrows.svg', &
-                               unit_arrow_in_pixel=100.0,              &
-                               write_arrow_template=.true. )
+    call slisvg_sketch.initialize( SIMULATION_REGION.xmin,  &
+                                   SIMULATION_REGION.ymin,  &
+                                   SIMULATION_REGION.xmax,  &
+                                   SIMULATION_REGION.ymax,  &
+                                   screen_width_in_pixel=800.0,            &
+                                   title='Arrow glyphs of vector field',   &
+                                   filename='example04_vector_arrows.svg', &
+                                   unit_arrow_in_pixel=100.0,              &
+                                   write_arrow_template = .true. )
   end subroutine iSketch_initialize
 
   subroutine iSketch_message_header( string )
     char(len=*) <in> :: string
-    call vv_sketch.text( ( SIMULATION_REGION.xmin         &
-                         + SIMULATION_REGION.xmax ) / 2,  &
-                         SIMULATION_REGION.ymax * 1.05,   &
-                         string,  &
-                         font_size_in_pixel=30.0,  &
-                         text_anchor='middle', &
-                         color=VV_COLOR__CONST.black )
+    call slisvg_sketch.text( ( SIMULATION_REGION.xmin         &
+                             + SIMULATION_REGION.xmax ) / 2,  &
+                             SIMULATION_REGION.ymax * 1.05,   &
+                             string,                          &
+                             font_size_in_pixel=30.0,         &
+                             text_anchor='middle',            &
+                             color=SLISVG_COLOR__CONST.black )
   end subroutine iSketch_message_header
 
   subroutine iSketch_message_footer
@@ -258,33 +258,33 @@ contains
                                 - tsep
 
     vmax = gradvector.amp_max
-    string = ' vector amp max = ' // vv__real_to_str13(vmax)
-    call vv_sketch.text( ( SIMULATION_REGION.xmin         &
-                         + SIMULATION_REGION.xmax ) / 2,  &
-                         text_v_pos_in_physical_unit,  &
-                         string,  &
-                         font_size_in_pixel=20.0,  &
-                         text_anchor='middle', &
-                         color=VV_COLOR__CONST.black )
+    string = ' vector amp max = ' // slisvg__real_to_str13(vmax)
+    call slisvg_sketch.text( ( SIMULATION_REGION.xmin         &
+                             + SIMULATION_REGION.xmax ) / 2,  &
+                             text_v_pos_in_physical_unit,  &
+                             string,  &
+                             font_size_in_pixel=20.0,  &
+                             text_anchor='middle', &
+                             color=SLISVG_COLOR__CONST.black )
     text_v_pos_in_physical_unit -= tsep
-    string = trim(vv_sketch.filename)
-    call vv_sketch.text( ( SIMULATION_REGION.xmin         &
-                         + SIMULATION_REGION.xmax ) / 2,  &
-                         text_v_pos_in_physical_unit,  &
-                         string,  &
-                         font_size_in_pixel=20.0,  &
-                         text_anchor='middle', &
-                         color=VV_COLOR__CONST.black )
+    string = trim(slisvg_sketch.filename)
+    call slisvg_sketch.text( ( SIMULATION_REGION.xmin         &
+                             + SIMULATION_REGION.xmax ) / 2,  &
+                             text_v_pos_in_physical_unit,  &
+                             string,  &
+                             font_size_in_pixel=20.0,  &
+                             text_anchor='middle', &
+                             color=SLISVG_COLOR__CONST.black )
   end subroutine iSketch_message_footer
 
   subroutine iSketch_finalize
-    call vv_sketch.finalize                 
+    call slisvg_sketch.finalize                 
   end subroutine iSketch_finalize
 
   subroutine iSketch_boundary
-    call vv_vector.mesh.draw( vv_sketch, &
-                              line_color=VV_COLOR__CONST.black, &
-                              width_in_pixels=2.0 )
+    call slisvg_vector.mesh.draw( slisvg_sketch, &
+                                  line_color=SLISVG_COLOR__CONST.black, &
+                                  width_in_pixels=2.0 )
   end subroutine iSketch_boundary
 
 end program example04_vector_arrows
