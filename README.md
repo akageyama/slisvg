@@ -1,6 +1,6 @@
-# SLISVG: SVG-Based Visualization of Slice Data
+# slisvg: SVG-Based Visualization Library of Slice Data
 
-SLISVG is a Fortran library for visualizing two-dimensional slice data from numerical simulations in SVG format. 
+slisvg is a Fortran library for visualizing two-dimensional slice data from numerical simulations in SVG format. 
 It supports scalar-field contours, vector-arrow glyphs, and animated SVG arrows. 
 The generated SVG files can be viewed in standard web browsers without additional visualization software.
 
