@@ -208,7 +208,7 @@ program main
                                  gradvector.comp_x,  &
                                  gradvector.comp_y )
   call iSketch_initialize
-  call iSketch_message_header( 'Contouring with color and dash' )
+  call iSketch_message_header( 'Vector arrow glyphs with animation' )
   call iSketch_boundary
 
   call slisvg_sketch.group_push( line_color=SLISVG_COLOR__CONST.black,  &
