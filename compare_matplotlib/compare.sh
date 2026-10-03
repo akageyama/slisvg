@@ -35,6 +35,8 @@ elif command -v python3 > /dev/null 2>&1; then
 else
     "${command_time[@]}" python "${script_matplotlib}"
 fi
+file_size=`stat -f '%z' "${dir_output_matplotlib}"/*.svg | awk '{s+=$1} END {printf "%.2f MiB",s/1024/1024}'`
+echo "Total SVG file size: ${file_size}"
 
 echo ''
 
@@ -48,3 +50,5 @@ gfortran -c "${script_slisvg}" -I ${dir_lib}
 gfortran use_slisvg.o -I ${dir_lib} -L ${dir_lib} -lslisvg
 "${command_time[@]}" ./a.out
 rm -f use_slisvg.o a.out
+file_size=`stat -f '%z' "${dir_output_slisvg}"/*.svg | awk '{s+=$1} END {printf "%.2f MiB",s/1024/1024}'`
+echo "Total SVG file size: ${file_size}"
