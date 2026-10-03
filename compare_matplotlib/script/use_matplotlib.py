@@ -6,13 +6,14 @@ import numpy as np
 with open('./data/param.txt', 'r') as f:
     for line in f:
         num_grid = int(line.split()[0])
-        num_time = int(line.split()[1])
+        num_slice = int(line.split()[1])
+        num_time = int(line.split()[2])
 
 grid_x = np.empty((num_grid, num_grid))
 grid_y = np.empty((num_grid, num_grid))
-field3d_u = np.empty((num_grid, num_grid, num_grid))
-field3d_v = np.empty((num_grid, num_grid, num_grid))
-field3d_w = np.empty((num_grid, num_grid, num_grid))
+field3d_u = np.empty((num_grid, num_grid, num_slice))
+field3d_v = np.empty((num_grid, num_grid, num_slice))
+field3d_w = np.empty((num_grid, num_grid, num_slice))
 
 num_level = 10
 
@@ -51,7 +52,7 @@ for i_t in range(num_time):
         levels = np.linspace(v_min, v_max, num_level)
 
     start = time.perf_counter()
-    for i_z in range(num_grid):
+    for i_z in range(num_slice):
 
         fig, ax = plt.subplots(figsize=(800/72, 800/72))
 

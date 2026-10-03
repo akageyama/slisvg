@@ -6,7 +6,7 @@ program main
     use slisvg_slice_vector_m
 
     implicit none
-    integer :: num_grid, num_time, num_level
+    integer :: num_grid, num_slice, num_time, num_level
     integer :: i_line, i_x, i_y, i_z, i_t, i_v
     integer :: unit_data
     real :: x, y, z, u, v, w
@@ -26,14 +26,14 @@ program main
     type(slisvg_color_t) :: color
 
     open(newunit=unit_data, file='./data/param.txt')
-    read(unit_data, *) num_grid, num_time
+    read(unit_data, *) num_grid, num_slice, num_time
     close(unit_data)
 
     allocate(grid_x(num_grid))
     allocate(grid_y(num_grid))
-    allocate(field3d_u(num_grid,num_grid,num_grid))
-    allocate(field3d_v(num_grid,num_grid,num_grid))
-    allocate(field3d_w(num_grid,num_grid,num_grid))
+    allocate(field3d_u(num_grid,num_grid,num_slice))
+    allocate(field3d_v(num_grid,num_grid,num_slice))
+    allocate(field3d_w(num_grid,num_grid,num_slice))
 
     num_level = 10
 
@@ -47,7 +47,7 @@ program main
         open(newunit=unit_data, file=filename)
 
         ! ===== Read data =====
-        do i_line = 1, num_grid**3
+        do i_line = 1, num_grid**2 * num_slice
             read(unit_data, *) i_x, i_y, i_z, x, y, z, u, v, w
             grid_x(i_x+1) = x
             grid_y(i_y+1) = y
@@ -69,7 +69,7 @@ program main
         end if
 
         call system_clock(start, rate)
-        do i_z = 1, num_grid
+        do i_z = 1, num_slice
 
             write(svgname,'(A,I4.4,A,I4.4,A)')  &
                 './output/slisvg/slice_', i_z, '_s=', i_t, '.svg'

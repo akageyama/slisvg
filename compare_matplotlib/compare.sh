@@ -19,7 +19,7 @@ if [ ! -d "${dir_lib}" ]; then
     exit 1
 fi
 if [ ! -f ./data/param.txt ]; then
-    echo "Error: ./data not found. Run 'bash ./generate_data.sh <num_grid> <num_time>'."
+    echo "Error: ./data not found. Run 'bash ./generate_data.sh <num_grid> <num_slice> <num_time>'."
     exit 1
 fi
 

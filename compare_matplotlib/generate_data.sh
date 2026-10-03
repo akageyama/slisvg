@@ -2,7 +2,8 @@
 
 # ===== Parameters =====
 num_grid=$1
-num_time=$2
+num_slice=$2
+num_time=$3
 # ======================
 
 dir_data='./data'
@@ -14,17 +15,18 @@ script_python='./script/generate_data.py'
 
 # ===== Generate data =====
 
-if [ $# -ne 2 ]; then
-    echo "Error: Add two arguments <num_grid> and <num_time>."
+if [ $# -ne 3 ]; then
+    echo "Error: Add three arguments <num_grid>, <num_slice> and <num_time>."
     exit 1
 fi
 
 mkdir -p ${dir_data}
-echo "${num_grid} ${num_time}" > "${file_param}"
+echo "${num_grid} ${num_slice} ${num_time}" > "${file_param}"
 
 twopi=`echo "2 * 3.141592653589793238462643383279" | bc -l`
-n_t=`echo "(${num_time}-1)" | bc -l`
 n_l=`echo "(${num_grid}-1)" | bc -l`
+n_s=`echo "(${num_slice}-1)" | bc -l`
+n_t=`echo "(${num_time}-1)" | bc -l`
 
 for t in `seq 0 ${n_t}`
 do
@@ -35,11 +37,11 @@ do
     if [ "${use_python}" = "True" ]; then
 
         if command -v uv > /dev/null 2>&1; then
-            uv run "${script_python}" ${name_file} ${t} ${decay_rate} ${n_l}
+            uv run "${script_python}" ${name_file} ${t} ${decay_rate} ${n_l} ${n_s}
         elif command -v python3 > /dev/null 2>&1; then
-            python3 "${script_python}" ${name_file} ${t} ${decay_rate} ${n_l}
+            python3 "${script_python}" ${name_file} ${t} ${decay_rate} ${n_l} ${n_s}
         else
-            python "${script_python}" ${name_file} ${t} ${decay_rate} ${n_l}
+            python "${script_python}" ${name_file} ${t} ${decay_rate} ${n_l} ${n_s}
         fi
 
     else
@@ -54,9 +56,9 @@ do
             do
                 y=`echo "${j} / ${n_l}" | bc -l`
 
-                for k in `seq 0 ${n_l}`
+                for k in `seq 0 ${n_s}`
                 do
-                    z=`echo "${k} / ${n_l}" | bc -l`
+                    z=`echo "${k} / ${n_s}" | bc -l`
 
                     # ===== Calculate an ABC flow =====
                     u=`echo "(s(${twopi}*${z}) + c(${twopi}*${y})) * ${factor}" | bc -l`

@@ -6,6 +6,7 @@ name_file = sys.argv[1]
 t = int(sys.argv[2])
 decay_rate = float(sys.argv[3])
 n_l = int(sys.argv[4])
+n_s = int(sys.argv[5])
 
 factor = np.exp(-decay_rate * t)
 
@@ -17,8 +18,8 @@ with open(name_file, "w") as f:
         for j in range(n_l+1):
             y = j / n_l
 
-            for k in range(n_l+1):
-                z = k / n_l
+            for k in range(n_s+1):
+                z = k / n_s
 
                 # ===== Calculate an ABC flow =====
                 u = (np.sin(2*np.pi*z) + np.cos(2*np.pi*y)) * factor
