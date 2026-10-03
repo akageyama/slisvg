@@ -54,7 +54,7 @@ for i_t in range(num_time):
     start = time.perf_counter()
     for i_z in range(num_slice):
 
-        fig, ax = plt.subplots(figsize=(800/72, 800/72))
+        fig, ax = plt.subplots(figsize=(800/96, 800/96))
 
         ax.set_xlim(l_min, l_max)
         ax.set_ylim(l_min, l_max)
