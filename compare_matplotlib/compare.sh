@@ -36,7 +36,8 @@ else
     "${command_time[@]}" python "${script_matplotlib}"
 fi
 file_size=`stat -f '%z' "${dir_output_matplotlib}"/*.svg | awk '{s+=$1} END {printf "%.2f MiB",s/1024/1024}'`
-echo "Total SVG file size: ${file_size}"
+# file_size=`stat -f '%z' "${dir_output_matplotlib}"/*.png | awk '{s+=$1} END {printf "%.2f MiB",s/1024/1024}'`
+echo "Total file size: ${file_size}"
 
 echo ''
 
@@ -51,4 +52,4 @@ gfortran use_slisvg.o -I ${dir_lib} -L ${dir_lib} -lslisvg
 "${command_time[@]}" ./a.out
 rm -f use_slisvg.o a.out
 file_size=`stat -f '%z' "${dir_output_slisvg}"/*.svg | awk '{s+=$1} END {printf "%.2f MiB",s/1024/1024}'`
-echo "Total SVG file size: ${file_size}"
+echo "Total file size: ${file_size}"
