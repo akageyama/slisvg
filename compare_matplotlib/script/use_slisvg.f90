@@ -72,7 +72,7 @@ program main
         do i_z = 1, num_slice
 
             write(svgname,'(A,I4.4,A,I4.4,A)')  &
-                './output/slisvg/slice_', i_z, '_s=', i_t, '.svg'
+                './output/slisvg/slice_', i_z, '_flow_s=', i_t, '.svg'
 
             ! ===== Initialize =====
             call slisvg_scalar%initialize( 'vertical flow',  &
