@@ -74,7 +74,7 @@ for i_t in range(num_time):
         plt.savefig(
             f'./output/matplotlib/slice_{i_z+1:04d}_flow_s={i_t:04d}.svg')
         # plt.savefig(
-        #     f'./output/matplotlib/slice_{i_z+1:04d}_s={i_t:04d}.png',
+        #     f'./output/matplotlib/slice_{i_z+1:04d}_flow_s={i_t:04d}.png',
         #     dpi=96)
         plt.close(fig)
     time_plot += time.perf_counter() - start
