@@ -34,6 +34,8 @@ do
     rm -f "${name_file}"
     touch "${name_file}"
 
+    decay_rate=`echo "${decay_rate}*(9/${n_t})" | bc -l`
+
     if [ "${use_python}" = "True" ]; then
 
         if command -v uv > /dev/null 2>&1; then
