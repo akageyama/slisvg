@@ -28,13 +28,13 @@ n_l=`echo "(${num_grid}-1)" | bc -l`
 n_s=`echo "(${num_slice}-1)" | bc -l`
 n_t=`echo "(${num_time}-1)" | bc -l`
 
+decay_rate=`echo "${decay_rate}*(9/${n_t})" | bc -l`
+
 for t in `seq 0 ${n_t}`
 do
     name_file=`printf "%s/data_%04d.txt" ${dir_data} ${t}`
     rm -f "${name_file}"
     touch "${name_file}"
-
-    decay_rate=`echo "${decay_rate}*(9/${n_t})" | bc -l`
 
     if [ "${use_python}" = "True" ]; then
 
