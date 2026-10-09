@@ -1,0 +1,6 @@
+[project]
+name = "compare-matplotlib"
+version = "0.1.0"
+description = "Performance comparison between slisvg and Matplotlib"
+requires-python = ">=3.9"
+dependencies = ["matplotlib", "numpy"]
